@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!--Include Files-->
+    <xacro:macro name="prop_cw" params="prefix *origin">
+        <!--X4 definition-->
+        <link name="${prefix}_propcw_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/> 
+                <geometry>
+                    <mesh filename="file://$(find x4_description)/meshes/prop_18x6_CW.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision name="${prefix}_propcw_collision">
+                <origin xyz="0 0 0.0055" rpy="0 0 0"/> 
+                <geometry>
+                    <box size="0.467 0.056 0.011"/>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+                <material name="red"/>
+            </collision>
+            <!-- Example Inertia, Needs changed-->
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.025"/>
+                <inertia ixx="9.75e-06" ixy="0" ixz="0" iyy="0.00017" iyz="0" izz="0.00017"/>
+            </inertial>
+            <gravity>1</gravity>
+            <velocity_decay/>
+            <self_collide>0</self_collide>
+        </link>
+
+        <!--Joint between propeller and drone body-->
+        <joint name="${prefix}_propcw_joint" type="revolute">
+            <parent link="drone_link"/>
+            <child  link="${prefix}_propcw_link"/>
+            <axis xyz="0 0 1"/>
+            <limit lower="-1e16" upper="+1e16" effort="1000" velocity="1000"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+    </xacro:macro> <!--Prop CW Link -->
+
+    <xacro:macro name="prop_ccw" params="prefix *origin">
+        <!--X4 definition-->
+        <link name="${prefix}_propccw_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/> 
+                <geometry>
+                    <mesh filename="file://$(find x4_description)/meshes/prop_18x6_CCW.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision name="${prefix}_propccw_collision">
+                <origin xyz="0 0 0.0055" rpy="0 0 0"/> 
+                <geometry>
+                    <box size="0.467 0.056 0.011"/>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+                <material name="red"/>
+            </collision>
+            <!-- Example Inertia, Needs changed-->
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="0.025"/>
+                <inertia ixx="9.75e-06" ixy="0" ixz="0" iyy="0.00017" iyz="0" izz="0.00017"/>
+            </inertial>
+        </link>
+
+        <!--Joint between propeller and drone body-->
+        <joint name="${prefix}_propccw_joint" type="continuous">
+            <axis xyz="0 0 1"/>
+            <parent link="drone_link"/>
+            <child  link="${prefix}_propccw_link"/>
+            <xacro:insert_block name = "origin"/>
+            <limit lower="-1e16" upper="+1e16" effort="1000" velocity="1000"/>
+        </joint>
+
+    </xacro:macro> <!--Prop CCW Link -->
+
+    <xacro:macro name="x4">
+        <!-- Parameters -->
+        <xacro:property name="height" value="0.314" />
+        <xacro:property name="prop_height" value="0.0456" />
+        <xacro:property name="prop_dist" value="0.270" />
+        <!--X4 definition-->
+        <link name="drone_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/> 
+                <geometry>
+                    <mesh filename="file://$(find x4_description)/meshes/X4Assem.STL" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="dark_gray"/>
+            </visual>
+            <collision name="drone_collision">
+                <origin xyz="0 0. -0.068" rpy="0 0 0"/> 
+                <geometry>
+                    <box size="0.500 0.500 0.468"/>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode>
+                            <max_vel>100.0</max_vel>
+                            <min_depth>0.001</min_depth>
+                        </ode>
+                    </contact>
+                    <friction>
+                        <ode>
+                            <mu>100000.0</mu>
+                            <mu2>100000.0</mu2>
+                        </ode>
+                    </friction>
+                </surface>
+                <material name="red"/>
+            </collision>
+            <!-- Example Inertia, Needs changed-->
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+                <!-- <origin xyz="-0.00044 -0.0037 -0.009" rpy="0 0 0"/> -->
+                <mass value="1.5"/>
+                <inertia ixx="0.154635" ixy="0.002577" ixz="0.000026" iyy="0.186338" iyz="0.003492" izz="0.162779"/>
+                <!-- <inertia ixx="0.008" ixy="0" ixz="0" iyy="0.015" iyz="0" izz="0.017"/> -->
+            </inertial>
+            <velocity_decay>
+                <linear>0.0</linear>
+                <angular>0.0</angular>
+            </velocity_decay>
+        </link>
+
+        <!--Propellers-->
+        <xacro:prop_cw prefix="FL">
+            <origin xyz="${prop_dist} ${prop_dist} ${prop_height}" rpy="0 0 0"/>
+        </xacro:prop_cw>
+
+        <xacro:prop_cw prefix="BR">
+            <origin xyz="${-prop_dist} ${-prop_dist} ${prop_height}" rpy="0 0 0"/>
+        </xacro:prop_cw>
+
+        <xacro:prop_ccw prefix="FR">
+            <origin xyz="${prop_dist} ${-prop_dist} ${prop_height}" rpy="0 0 0"/>
+        </xacro:prop_ccw>
+
+        <xacro:prop_ccw prefix="BL">
+            <origin xyz="${-prop_dist} ${prop_dist} ${prop_height}" rpy="0 0 0"/>
+        </xacro:prop_ccw>
+
+        <!--Sensors-->
+        <xacro:imu suffix="1" parent="drone_link">
+            <origin xyz="0 0 0" rpy="${pi} 0 0"/>
+        </xacro:imu>
+
+        <xacro:camera suffix="rx0ii" parent="drone_link">
+    	    <origin xyz="0 -0.015 -0.12" rpy="${-pi/2} ${pi} 0"/>
+        </xacro:camera>
+
+        <!--xacro:gps suffix="1" parent="drone_link">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:gps>
+
+        <xacro:altimeter suffix="1" parent="drone_link">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:altimeter>
+
+        <xacro:magnetometer suffix="1" parent="drone_link">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:magnetometer>
+
+        <xacro:rangefinder suffix="1" parent="drone_link">
+            <origin xyz="0.18 0.01 -0.309" rpy="0 ${pi/2} 0"/>
+        </xacro:rangefinder> -->
+
+        <!-- Gazebo/Ardupilot Plugins-->
+        <!-- Currently hardcode the link and joint names but should pass them as parameters later.
+         Need to think more about the propeller names and such-->
+        <xacro:gazebo_plugins/>
+
+    </xacro:macro> <!--Drone Link -->
+
+</robot>

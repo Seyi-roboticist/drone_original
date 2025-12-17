@@ -1,0 +1,21 @@
+# MoveIt uses this configuration for controller management
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - aurelia_x4_controller
+
+  aurelia_x4_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default : true
+    joints:
+      - aurelia_virtual_joint
+      - BL_propccw_joint
+      - BR_propcw_joint
+      - FL_propcw_joint
+      - FR_propccw_joint
+    action_ns: follow_joint_trajectory
+    default : true
+    

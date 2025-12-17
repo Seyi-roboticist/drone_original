@@ -1,0 +1,9 @@
+<library path="x4_driver_plugin">
+  <class name="X4HardwareInterface"
+         type="X4HardwareInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS2 Control Hardware Interface for the Aurelia X4 drone.
+    </description>
+  </class>
+</library>

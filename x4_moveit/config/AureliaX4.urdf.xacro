@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="AureliaX4">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import AureliaX4 urdf file -->
+    <xacro:include filename="$(find x4_description)/urdf/aurelia_x4.urdf" />
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="AureliaX4.ros2_control.xacro" />
+
+
+    <xacro:AureliaX4_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
+
+</robot>

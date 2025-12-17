@@ -1,0 +1,288 @@
+<?xml version='1.0'?>
+
+<sdf version="1.9" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="prop_cw" params="suffix *pose">
+        <link name='prop_${suffix}'>
+            <xacro:insert_block name = "pose"/>
+            <visual name='prop_${suffix}_visual'>
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.001 0.001 0.001</scale>
+                        <uri>model://meshes/prop_18x6_CW.STL</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>0 1 0</ambient>
+                    <diffuse>0 1 0</diffuse>
+                    <specular>1 1 1 1</specular>
+                    <pbr>
+                        <metal>
+                            <metalness>0.5</metalness>
+                            <roughness>0.5</roughness>
+                        </metal>
+                    </pbr>
+                </material>
+            </visual>
+            <inertial>
+                <pose>0 0 0 0 0 0</pose>
+                <mass>0.025</mass>
+                <inertia>
+                    <ixx>9.75e-06</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000166704</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000167604</izz>
+                </inertia>
+            </inertial>
+            <collision name='prop_${suffix}_collision'>
+                <pose>0 0 0.005 0 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.011</length>
+                        <radius>0.235</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+            <gravity>1</gravity>
+            <velocity_decay/>
+            <self_collide>0</self_collide>
+        </link>
+
+        <joint name='prop_${suffix}_joint' type='revolute'>
+            <child>prop_${suffix}</child>
+            <parent>base_link</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <limit>
+                    <lower>-1e+16</lower>
+                    <upper>1e+16</upper>
+                </limit>
+                <dynamics>
+                    <damping>0.004</damping>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <implicit_spring_damper>1</implicit_spring_damper>
+                </ode>
+            </physics>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="prop_ccw" params="suffix *pose">
+        <link name='prop_${suffix}'>
+            <xacro:insert_block name = "pose"/>
+            <visual name='prop_${suffix}_visual'>
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <scale>0.001 0.001 0.001</scale>
+                        <uri>model://meshes/prop_18x6_CCW.STL</uri>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>0 0 1</ambient>
+                    <diffuse>0 0 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                    <pbr>
+                        <metal>
+                            <metalness>0.5</metalness>
+                            <roughness>0.5</roughness>
+                        </metal>
+                    </pbr>
+                </material>
+            </visual>
+            <inertial>
+                <pose>0 0 0 0 0 0</pose>
+                <mass>0.025</mass>
+                <inertia>
+                    <ixx>9.75e-06</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.000166704</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.000167604</izz>
+                </inertia>
+            </inertial>
+            <collision name='prop_${suffix}_collision'>
+                <pose>0 0 0.005 0 0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <length>0.011</length>
+                        <radius>0.235</radius>
+                    </cylinder>
+                </geometry>
+                <surface>
+                    <contact>
+                        <ode/>
+                    </contact>
+                    <friction>
+                        <ode/>
+                    </friction>
+                </surface>
+            </collision>
+            <gravity>1</gravity>
+            <velocity_decay/>
+            <self_collide>0</self_collide>
+        </link>
+
+        <joint name='prop_${suffix}_joint' type='revolute'>
+            <child>prop_${suffix}</child>
+            <parent>base_link</parent>
+            <axis>
+                <xyz>0 0 1</xyz>
+                <limit>
+                    <lower>-1e+16</lower>
+                    <upper>1e+16</upper>
+                </limit>
+                <dynamics>
+                    <damping>0.004</damping>
+                </dynamics>
+            </axis>
+            <physics>
+                <ode>
+                    <implicit_spring_damper>1</implicit_spring_damper>
+                </ode>
+            </physics>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="x4">
+        <!-- Parameters -->
+        <xacro:property name="height" value="0.314" />
+        <xacro:property name="prop_height" value="0.0456" />
+        <xacro:property name="prop_dist" value="0.270" />
+
+        <!--X4 definition-->
+
+        <!--Base Link-->
+        <link name='base_link'>
+            <pose>0 0 ${height} 0 0 0</pose>
+            <velocity_decay>
+                <linear>0.0</linear>
+                <angular>0.0</angular>
+            </velocity_decay>
+            <inertial>
+                <pose>0 0 0 0 0 0</pose>
+                <mass>5.420</mass>
+                <inertia>
+                    <ixx>0.154635</ixx>
+                    <ixy>0.002577</ixy>
+                    <ixz>0.000026</ixz>
+                    <iyy>0.186338</iyy>
+                    <iyz>0.003492</iyz>
+                    <izz>0.162779</izz>
+                </inertia>
+            </inertial>
+            <collision name='base_collision'>
+                <pose>0 0 -0.075 0 0 0</pose>
+                <geometry>
+                    <box>
+                    <size>0.5 0.5 0.484</size>
+                    </box>
+                </geometry>
+                <surface>
+                    <contact>
+                    <ode>
+                        <max_vel>100.0</max_vel>
+                        <min_depth>0.001</min_depth>
+                    </ode>
+                    </contact>
+                    <friction>
+                    <ode>
+                        <mu>100000.0</mu>
+                        <mu2>100000.0</mu2>
+                    </ode>
+                    </friction>
+                </surface>
+            </collision>
+            <visual name='base_visual'>
+                <pose>0 0 0 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                    <uri>model://meshes/X4Assem.STL</uri>
+                    <scale>0.001 0.001 0.001</scale>
+                    </mesh>
+                </geometry>
+                <material>
+                    <ambient>0.05 0.05 0.05</ambient>
+                    <diffuse>0.05 0.05 0.05</diffuse>
+                    <specular>1 1 1 1</specular>
+                    <pbr>
+                    <metal>
+                        <metalness>0.5</metalness>
+                        <roughness>0.5</roughness>
+                    </metal>
+                    </pbr>
+                </material>
+            </visual>
+        </link>
+
+        <!--Propellers-->
+        <xacro:prop_ccw suffix="FR">
+            <!--Rotor 0-->
+            <pose>${prop_dist} ${-prop_dist} ${prop_height + height} 0 0 0</pose>
+        </xacro:prop_ccw>
+
+        <xacro:prop_ccw suffix="BL">
+            <!--Rotor 1-->
+            <pose>${-prop_dist} ${prop_dist} ${prop_height + height} 0 0 0</pose>
+        </xacro:prop_ccw>
+
+        <xacro:prop_cw suffix="FL">
+            <!--Rotor 2-->
+            <pose>${prop_dist} ${prop_dist} ${prop_height + height} 0 0 0</pose>
+        </xacro:prop_cw>
+
+        <xacro:prop_cw suffix="BR">
+            <!--Rotor 3-->
+            <pose>${-prop_dist} ${-prop_dist} ${prop_height + height} 0 0 0</pose>
+        </xacro:prop_cw>
+
+        <!--Sensors-->
+        <xacro:imu suffix="1" parent="base_link">
+            <pose degrees="true">0 0 ${height} 180 0 0</pose>
+        </xacro:imu>
+
+        <!--For some reason, these links with no inertia effect the balance and destabilizes flight-->
+        <!-- <xacro:camera suffix="rx0ii" parent="base_link">
+            <pose degrees="true">0 0 ${height + -0.12} 0 0 0</pose>
+        </xacro:camera> -->
+
+        <!--xacro:gps suffix="1" parent="base_link">
+            <pose>0 0 ${height} 0 0 0</pose>
+        </xacro:gps>
+
+        <xacro:altimeter suffix="1" parent="base_link">
+            <pose>0 0 ${height} 0 0 0</pose>
+        </xacro:altimeter>
+
+        <xacro:magnetometer suffix="1" parent="base_link">
+            <pose>0 0 ${height} 0 0 0</pose>
+        </xacro:magnetometer>
+
+        <xacro:rangefinder suffix="1" parent="base_link">
+            <pose degrees="true">0.18 0.01 0.05 0 90 0</pose>
+        </xacro:rangefinder> -->
+
+        <!-- Gazebo/Ardupilot Plugins-->
+        <!-- Currently hardcode the link and joint names but should pass them as parameters later.
+        Need to think more about the propeller names and such-->
+        <xacro:gazebo_plugins prop0="FR" prop1="BL" prop2="FL" prop3="BR" />
+
+
+
+    </xacro:macro>
+
+</sdf>

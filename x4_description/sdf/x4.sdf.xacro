@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<sdf version="1.9" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find x4_description)/sdf/sensors.xacro"/>
+    <xacro:include filename="$(find x4_description)/sdf/x4.xacro"/> 
+    <xacro:include filename="$(find x4_description)/sdf/gazebo.xacro"/> 
+
+    <model name='AureliaX4'>
+        <pose>0 0 0 0 0 0</pose>
+        <xacro:x4/>
+    </model>
+
+</sdf>

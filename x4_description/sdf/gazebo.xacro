@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+
+<sdf version="1.9" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="gazebo_plugins" params="prop0 prop1 prop2 prop3">
+
+        <xacro:property name="multiplier" value="838" />
+        <xacro:property name="cmd_max" value="2.5" />
+        <xacro:property name="cmd_min" value="-2.5" />
+        <xacro:property name="cp_x" value="0.1" />
+        <xacro:property name="prop_area" value="0.006" />
+        <xacro:property name="p_gain" value="0.3" />
+        <xacro:property name="i_gain" value="0" />
+        <xacro:property name="d_gain" value="0" />
+        <xacro:property name="i_max" value="0" />
+        <xacro:property name="i_min" value="0" />
+
+        <!-- plugins -->
+        <plugin filename="libignition-gazebo-joint-state-publisher-system.so"
+            name="ignition::gazebo::systems::JointStatePublisher">
+        </plugin>
+
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${cp_x} 0 0</cp>
+            <forward>0 1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop0}</link_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${-cp_x} 0 0</cp>
+            <forward>0 -1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop0}</link_name>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${cp_x} 0 0</cp>
+            <forward>0 1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop1}</link_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${-cp_x} 0 0</cp>
+            <forward>0 -1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop1}</link_name>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${cp_x} 0 0</cp>
+            <forward>0 -1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop2}</link_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${-cp_x} 0 0</cp>
+            <forward>0 1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop2}</link_name>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${cp_x} 0 0</cp>
+            <forward>0 -1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop3}</link_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-lift-drag-system.so"
+            name="ignition::gazebo::systems::LiftDrag">
+            <a0>0.3</a0>
+            <alpha_stall>1.4</alpha_stall>
+            <cla>4.2500</cla>
+            <cda>0.10</cda>
+            <cma>0.00</cma>
+            <cla_stall>-0.025</cla_stall>
+            <cda_stall>0.0</cda_stall>
+            <cma_stall>0.0</cma_stall>
+            <area>${prop_area}</area>
+            <air_density>1.2041</air_density>
+            <cp>${-cp_x} 0 0</cp>
+            <forward>0 1 0</forward>
+            <upward>0 0 1</upward>
+            <link_name>prop_${prop3}</link_name>
+        </plugin>
+
+        <plugin filename="libignition-gazebo-apply-joint-force-system.so"
+            name="ignition::gazebo::systems::ApplyJointForce">
+            <joint_name>prop_${prop0}_joint</joint_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-apply-joint-force-system.so"
+            name="ignition::gazebo::systems::ApplyJointForce">
+            <joint_name>prop_${prop1}_joint</joint_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-apply-joint-force-system.so"
+            name="ignition::gazebo::systems::ApplyJointForce">
+            <joint_name>prop_${prop2}_joint</joint_name>
+        </plugin>
+        <plugin filename="libignition-gazebo-apply-joint-force-system.so"
+            name="ignition::gazebo::systems::ApplyJointForce">
+            <joint_name>prop_${prop3}_joint</joint_name>
+        </plugin>
+
+        <plugin name="ArduPilotPlugin" filename="libArduPilotPlugin.so">
+            <!-- Port settings -->
+            <fdm_addr>127.0.0.1</fdm_addr>
+            <fdm_port_in>9002</fdm_port_in>
+            <connectionTimeoutMaxCount>5</connectionTimeoutMaxCount>
+            <lock_step>1</lock_step>
+
+            <modelXYZToAirplaneXForwardZDown>0 0 0 3.141593 0 0</modelXYZToAirplaneXForwardZDown>
+            <gazeboXYZToNED>0 0 0 3.141593 0 0</gazeboXYZToNED>
+
+            <!-- Sensors -->
+            <imuName>imu_1</imuName>
+
+            <control channel="0">
+            <jointName>prop_${prop0}_joint</jointName>
+            <useForce>1</useForce>
+            <multiplier>${multiplier}</multiplier>
+            <offset>0</offset>
+            <servo_min>1100</servo_min>
+            <servo_max>1900</servo_max>
+            <type>VELOCITY</type>
+            <p_gain>${p_gain}</p_gain>
+            <i_gain>${i_gain}</i_gain>
+            <d_gain>${d_gain}</d_gain>
+            <i_max>${i_max}</i_max>
+            <i_min>${i_min}</i_min>
+            <cmd_max>${cmd_max}</cmd_max>
+            <cmd_min>${cmd_min}</cmd_min>
+            <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+            </control>
+            
+            <control channel="1">
+            <jointName>prop_${prop1}_joint</jointName>
+            <useForce>1</useForce>
+            <multiplier>${multiplier}</multiplier>
+            <offset>0</offset>
+            <servo_min>1100</servo_min>
+            <servo_max>1900</servo_max>
+            <type>VELOCITY</type>
+            <p_gain>${p_gain}</p_gain>
+            <i_gain>${i_gain}</i_gain>
+            <d_gain>${d_gain}</d_gain>
+            <i_max>${i_max}</i_max>
+            <i_min>${i_min}</i_min>
+            <cmd_max>${cmd_max}</cmd_max>
+            <cmd_min>${cmd_min}</cmd_min>
+            <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+            </control>
+
+            <control channel="2">
+            <jointName>prop_${prop2}_joint</jointName>
+            <useForce>1</useForce>
+            <multiplier>${-multiplier}</multiplier>
+            <offset>0</offset>
+            <servo_min>1100</servo_min>
+            <servo_max>1900</servo_max>
+            <type>VELOCITY</type>
+            <p_gain>${p_gain}</p_gain>
+            <i_gain>${i_gain}</i_gain>
+            <d_gain>${d_gain}</d_gain>
+            <i_max>${i_max}</i_max>
+            <i_min>${i_min}</i_min>
+            <cmd_max>${cmd_max}</cmd_max>
+            <cmd_min>${cmd_min}</cmd_min>
+            <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+            </control>
+
+            <control channel="3">
+            <jointName>prop_${prop3}_joint</jointName>
+            <useForce>1</useForce>
+            <multiplier>${-multiplier}</multiplier>
+            <offset>0</offset>
+            <servo_min>1100</servo_min>
+            <servo_max>1900</servo_max>
+            <type>VELOCITY</type>
+            <p_gain>${p_gain}</p_gain>
+            <i_gain>${i_gain}</i_gain>
+            <d_gain>${d_gain}</d_gain>
+            <i_max>${i_max}</i_max>
+            <i_min>${i_min}</i_min>
+            <cmd_max>${cmd_max}</cmd_max>
+            <cmd_min>${cmd_min}</cmd_min>
+            <controlVelocitySlowdownSim>1</controlVelocitySlowdownSim>
+            </control>
+        </plugin>
+
+    </xacro:macro>
+
+</sdf>

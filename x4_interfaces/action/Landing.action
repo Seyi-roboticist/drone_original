@@ -1,0 +1,13 @@
+# goal
+float64 x_lat
+float64 y_long
+float64 z_alt
+float32 velocity
+---
+# result
+uint8 SUCCESS=0
+uint8 FAILURE=1 
+uint8 result_code
+---
+# feedback
+float32 progress

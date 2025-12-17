@@ -1,0 +1,8 @@
+# Default initial positions for AureliaX4's ros2_control fake system
+
+initial_positions:
+  BL_propccw_joint: 0
+  BR_propcw_joint: 0
+  FL_propcw_joint: 0
+  FR_propccw_joint: 0
+  aurelia_virtual_joint: 0

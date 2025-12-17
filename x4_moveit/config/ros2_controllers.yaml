@@ -1,0 +1,25 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    aurelia_x4_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+aurelia_x4_controller:
+  ros__parameters:
+    joints:
+      - aurelia_virtual_joint
+      - BL_propccw_joint
+      - BR_propcw_joint
+      - FL_propcw_joint
+      - FR_propccw_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity

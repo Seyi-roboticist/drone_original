@@ -1,0 +1,12 @@
+# VSCode files
+.vscode/
+*.code-workspace
+.history/
+
+#JSON
+*.json
+
+#CMAKE build
+build/
+install/
+log/

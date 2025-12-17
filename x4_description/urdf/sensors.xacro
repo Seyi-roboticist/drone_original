@@ -1,0 +1,270 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" xmlns:ignition="http://example.com/ignition" name="sensors">
+
+    <xacro:macro name="camera" params="suffix parent *origin">
+	  <link name="camera_link_${suffix}">
+	    <inertial>
+	      <mass value="0.132"/> 
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
+	      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+	    </inertial>
+	    <visual>
+	      <geometry>
+		<mesh filename="file://$(find x4_description)/meshes/Sony_RX0.stl" scale="0.01 0.01 0.01"/>
+	      </geometry>
+	      <material name="red"/>
+	    </visual>
+	    <collision>
+	      <geometry>
+		<mesh filename="file://$(find x4_description)/meshes/Sony_RX0.stl" scale="0.001 0.001 0.001"/>
+	      </geometry>
+	    </collision>
+	  </link>
+
+	  <joint name="camera_joint_${suffix}" type="fixed">
+	    <parent link="${parent}"/>
+	    <child link="camera_link_${suffix}"/>
+	    <xacro:insert_block name="origin"/>
+	  </joint>
+
+	  <!-- Gazebo Camera Plugin -->
+	  <gazebo reference="camera_link_${suffix}">
+	    <sensor type="camera" name="camera_${suffix}">
+	      <update_rate>30.0</update_rate>
+	      <always_on>1</always_on>
+	      <topic>sim_camera/image_raw</topic>
+	      <camera name="camera_${suffix}">
+		<horizontal_fov>1.466</horizontal_fov>
+		<image>
+		  <width>1920</width>
+		  <height>1080</height>
+		  <format>R8G8B8</format>
+		</image>
+		<clip>
+		  <near>0.02</near>
+		  <far>300</far>
+		</clip>
+		<noise>
+		  <type>gaussian</type>
+		  <mean>0.0</mean>
+		  <stddev>0.01</stddev>
+		</noise>
+	      </camera>
+	      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+		<cameraName>sim_camera</cameraName>
+		<imageTopicName>sim_camera/image_raw</imageTopicName>
+		<cameraInfoTopicName>sim_camera/camera_info</cameraInfoTopicName>
+		<frameName>camera_link_${suffix}</frameName>
+		<updateRate>30.0</updateRate>
+		<Cx>960.0</Cx>
+		<Cy>540.0</Cy>
+		<focalLength>1000.0</focalLength>
+		<distortionK1>0.0</distortionK1>
+		<distortionK2>0.0</distortionK2>
+		<distortionK3>0.0</distortionK3>
+		<distortionT1>0.0</distortionT1>
+		<distortionT2>0.0</distortionT2>
+	      </plugin>
+	    </sensor>
+	  </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="imu" params="suffix parent *origin">
+        <link name="imu_link_${suffix}">
+            <inertial>
+                <mass value="0.0001"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+        </link>
+
+        <!-- Fixed Joint -->
+        <joint name="imu_joint_${suffix}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="imu_link_${suffix}"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+
+        <!-- Gazebo IMU Plugin -->
+        <gazebo reference="imu_link_${suffix}">
+            <sensor name="imu_${suffix}" type="imu">
+                <always_on>1</always_on>
+                <update_rate>1000.0</update_rate>
+                <!-- <topic>imu_${suffix}/data</topic> -->
+                <!-- <topic>world/empty/model/Aurelia X4/link/drone_link/sensor/imu_${suffix}/imu</topic> needed for Ardupilo -->
+            </sensor>
+        </gazebo>
+    </xacro:macro>  
+
+    <xacro:macro name="gps" params="suffix parent *origin">
+        <link name="gps_link_${suffix}">
+            <inertial>
+                <mass value="0.0001"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <cylinder length="0.005" radius="0.025"/>
+                </geometry>
+            </visual>
+        </link>
+
+        <!-- Fixed Joint -->
+        <joint name="gps_joint_${suffix}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="gps_link_${suffix}"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+
+        <!-- Gazebo GPS Plugin -->
+        <gazebo reference="gps_link_${suffix}">
+            <sensor name="gps_${suffix}" type="navsat">
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <topic>gps_${suffix}/fix</topic>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="magnetometer" params="suffix parent *origin">
+        <link name="magnetometer_link_${suffix}">
+            <inertial>
+                <mass value="0.0001"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+        </link>
+
+        <!-- Fixed Joint -->
+        <joint name="magnetometer_joint_${suffix}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="magnetometer_link_${suffix}"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+
+        <!-- Gazebo Magnetometer Plugin -->
+        <gazebo reference="magnetometer_link_${suffix}">
+            <sensor name="magnetometer_${suffix}" type="magnetometer">
+                <always_on>1</always_on>
+                <update_rate>50</update_rate>
+                <topic>magnetometer_${suffix}/data</topic>
+                <magnetometer>
+                    <x>
+                        <noise type="gaussian">
+                        <mean>0.000000080</mean>
+                        <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </x>
+                    <y>
+                        <noise type="gaussian">
+                        <mean>0.000000080</mean>
+                        <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </y>
+                    <z>
+                        <noise type="gaussian">
+                        <mean>0.000000080</mean>
+                        <bias_mean>0.000000400</bias_mean>
+                        </noise>
+                    </z>
+                </magnetometer>
+            </sensor>
+        </gazebo>
+    </xacro:macro>  
+
+    <xacro:macro name="altimeter" params="suffix parent *origin">
+        <link name="altimeter_link_${suffix}">
+            <inertial>
+                <mass value="0.0001"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+        </link>
+
+        <!-- Fixed Joint -->
+        <joint name="altimeter_joint_${suffix}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="altimeter_link_${suffix}"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+
+        <!-- Gazebo Altimeter Plugin -->
+        <gazebo reference="altimeter_link_${suffix}">
+            <sensor name="altimeter_${suffix}" type="altimeter">
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <topic>altimeter_${suffix}/data</topic>
+                <altimeter>
+                    <vertical_position>
+                        <noise type="gaussian">
+                            <mean>0.1</mean>
+                            <stddev>0.2</stddev>
+                        </noise>
+                    </vertical_position>
+                    <vertical_velocity>
+                        <noise type="gaussian">
+                            <mean>0.2</mean>
+                            <stddev>0.1</stddev>
+                        </noise>
+                    </vertical_velocity>
+                </altimeter>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="rangefinder" params="suffix parent *origin">
+        <link name="rangefinder_link_${suffix}">
+            <inertial>
+                <mass value="0.0001"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <sphere radius="0.01"/>
+                </geometry>
+                <material name="red"/>
+            </visual>
+        </link>
+
+        <!-- Fixed Joint -->
+        <joint name="rangefinder_joint_${suffix}" type="fixed">
+            <parent link="${parent}"/>
+            <child link="rangefinder_link_${suffix}"/>
+            <xacro:insert_block name = "origin"/>
+        </joint>
+
+        <!-- Gazebo GPU LIDAR Plugin -->
+        <gazebo reference="rangefinder_link_${suffix}">
+            <sensor name="rangefinder_${suffix}" type="gpu_lidar">
+                <always_on>1</always_on>
+                <update_rate>30</update_rate>
+                <topic>rangefinder_${suffix}</topic>
+                <ignition_frame_id>rangefinder_link_${suffix}</ignition_frame_id>
+                <ray>
+                    <scan>
+                        <vertical>
+                            <samples>3</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-0.1</min_angle>
+                            <max_angle>0.1</max_angle>
+                        </vertical>
+                        <horizontal>
+                            <samples>3</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-0.1</min_angle>
+                            <max_angle>0.1</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.02</min>
+                        <max>4</max>
+                        <resolution>0.005</resolution>
+                    </range>
+                </ray>
+                
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+</robot>
